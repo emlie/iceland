@@ -25,11 +25,11 @@ _Framføringene blir vurdert og teller som et karaktergivende muntlig arbeid._
 <br>
 [x] Sagaene – Mia
 <br>
-Kultur – Jacob?
+[ ] Kultur – Jacob?
 <br>
-Arkitektur – Jacob?
+[ ] Arkitektur – Jacob?
 <br>
-Quiz – Erling?
+[ ] Quiz – Erling?
 <br>
 <br>
-_HVORDAN FRAMFØRE?_
+_*HVORDAN FRAMFØRE?*_
