@@ -306,3 +306,18 @@ p span {
 .highlight {
   background-color: var(--yellow);
 }
+
+
+
+
+
+
+#frame{max-width:100%;width:auto;border:0px solid #ccc;background:#fff;padding:10px;margin:3px;}
+p.pager{margin:5px 0 5px; font:bold 2rem 'Open Sans', sans-serif;color:#999;}
+img.question-image{display:block;max-width:250px;margin:10px auto;border:1px solid #ccc;width:100%;height:auto;}
+#choice-block{display:block;list-style:none;margin:0;padding:0;transition: ease-in-out 0.2s;}
+#submitbutton{background:#A9E2F5;transition: ease-in-out 0.2s;font-family: 'Open Sans', sans-serif;font-size: 1.5rem;}
+#submitbutton:hover{background:#D6F5FF;}
+#explanation{margin:0 auto;padding:20px;width:75%;}
+.choice-box{display:block;text-align:center;margin:8px auto;padding:2rem 0;border:1px solid #ccc;cursor:pointer;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;transition: ease-in-out 0.2s;}
+strong {font-size: inherit;}

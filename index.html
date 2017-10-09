@@ -170,9 +170,7 @@
           </div>
 
           <div class="col-8 top">
-            <p>
-              <a href="quiz.html" class="btn">ta quizen</a>
-            </p>
+            <div id="frame" role="content"></div>
           </div>
         </div>
 
@@ -217,7 +215,207 @@
 <script src="zenscroll-latest/zenscroll-min.js"></script>
 
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>
 
+
+var quiztitle = "Quiz";
+
+var quiz = [
+    {
+        "question"      :   "Når var den norrøne tiden?",
+        "image"         :   "",
+        "choices"       :   [
+                                "850-1319",
+                                "900-1419",
+                                "800-1319",
+                                "800-1419"
+                            ],
+        "correct"       :   "800-1319",
+        "explanation"   :   "Den norrøne tida varte fra rundt 800 til 1319 og betegner datidens samfunn og kultur i Norge og på Island.",
+    },
+    {
+        "question"      :   "Hva var det fokus på i den tiden?",
+        "image"         :   "",
+        "choices"       :   [
+                                "Ætta",
+                                "Familie",
+                                "Hevn",
+                                "Tokt"
+                            ],
+        "correct"       :   "Ætta",
+        "explanation"   :   "Det norrøne samfunnet kalles også et ættesamfunn, for det er ætten som er grunnlaget og det som står i fokus.",
+    },
+    {
+        "question"      :   "Hva var bygningenes kjennetegn?",
+        "image"         :   "",
+        "choices"       :   [
+                                "Utskjæringer",
+                                "Lange og lagd av tømmer",
+                                "Stein og Utskjæringer",
+                                "Tømmer og utskjæringer"
+                            ],
+        "correct"       :   "Tømmer og utskjæringer",
+        "explanation"   :   "Kjennetegn på bygninger i norrøn tid var at de var laget av tømmer og hadde utskjæringer.",
+    },
+    {
+        "question"      :   "Hvor mange sagaer finnes det idag?",
+        "image"         :   "",
+        "choices"       :   [
+                                "ca. 50",
+                                "ca. 40",
+                                "ca. 30",
+                                "ca. 4"
+                            ],
+        "correct"       :   "ca. 40",
+        "explanation"   :   "Alt i alt finnes det idag ca. 40 sagaer.",
+    },
+    {
+        "question"      :   "Når var landnåmstiden?",
+        "image"         :   "",
+        "choices"       :   [
+                                "ca. 874-930",
+                                "ca. 874-940",
+                                "ca. 864-930",
+                                "ca. 864-940"
+                            ],
+        "correct"       :   "ca. 874-930",
+        "explanation"   :   "Landnåmstida var fra ca. 874-930",
+    },
+
+];
+
+
+/******* Er ikke vits å forandre på noe under her med mindre du skal forandre på "sjekk svar" knappen eller noe liknende *********/
+var currentquestion = 0, score = 0, submt=true, picked;
+var incrementCount = function(){
+clicks++;
+}
+
+jQuery(document).ready(function($){
+
+
+    function htmlEncode(value){
+      return $(document.createElement('div')).text(value).html();
+    }
+
+    /**
+     *
+     *
+     * @param {choices} array
+     */
+    function addChoices(choices){
+        if(typeof choices !== "undefined" && $.type(choices) == "array"){
+            $('#choice-block').empty();
+            for(var i=0;i<choices.length; i++){
+                $(document.createElement('li')).addClass('choice choice-box').attr('data-index', i).text(choices[i]).appendTo('#choice-block');
+            }
+        }
+    }
+
+    /**
+     * reset for alle spørsmålene
+     */
+    function nextQuestion(){
+        submt = true;
+        $('#explanation').empty();
+        $('#question').text(quiz[currentquestion]['Spørsmål']);
+        $('#pager').text('Spørsmål ' + Number(currentquestion + 1) + ' av ' + quiz.length);
+        if(quiz[currentquestion].hasOwnProperty('image') && quiz[currentquestion]['image'] != ""){
+            if($('#question-image').length == 0){
+                $(document.createElement('img')).addClass('question-image').attr('id', 'question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question'])).insertAfter('#question');
+            } else {
+                $('#question-image').attr('src', quiz[currentquestion]['image']).attr('alt', htmlEncode(quiz[currentquestion]['question']));
+            }
+        } else {
+            $('#question-image').remove();
+        }
+        addChoices(quiz[currentquestion]['choices']);
+        setupButtons();
+    }
+
+    /**
+     * Sjekk om svaret er riktig
+     * @param {choice} number
+     */
+    function processQuestion(choice){
+        if(quiz[currentquestion]['choices'][choice] == quiz[currentquestion]['correct']){
+            $('.choice').eq(choice).css({'background-color':'#50D943'});
+            $('#explanation').html('<strong>Riktig!</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+            score++;
+        } else {
+            $('.choice').eq(choice).css({'background-color':'#D92623'});
+            $('#explanation').html('<strong>Ikke riktig.</strong> ' + htmlEncode(quiz[currentquestion]['explanation']));
+        }
+        currentquestion++;
+        $('#submitbutton').html('NESTE SPØRSMÅL &raquo;').on('click', function(){
+            if(currentquestion == quiz.length){
+                endQuiz();
+            } else {
+                $(this).text('SJEKK SVAR').css({'color':'#222'}).off('click');
+                nextQuestion();
+            }
+        })
+    }
+
+    function setupButtons(){
+        $('.choice').on('mouseover', function(){
+            $(this).css({'background-color':'#f7f7f7'});
+        });
+        $('.choice').on('mouseout', function(){
+            $(this).css({'background-color':'#fff'});
+        })
+        $('.choice').on('click', function(){
+            picked = $(this).attr('data-index');
+            $('.choice').removeAttr('style').off('mouseout mouseover');
+            $(this).css({'border-color':'#222','font-weight':700,'background-color':'#f7f7f7'});
+            if(submt){
+                submt=false;
+                $('#submitbutton').css({'color':'#000'}).on('click', function(){
+                    $('.choice').off('click');
+                    $(this).off('click');
+                    processQuestion(picked);
+                });
+            }
+        })
+    }
+
+    function endQuiz(){
+        $('#explanation').empty();
+        $('#question').empty();
+        $('#choice-block').empty();
+        $('#submitbutton').remove();
+        $('#question').text("Du fikk " + score + " ut av " + quiz.length + " riktig.");
+        $(document.createElement('h2')).css({'text-align':'center', 'font-size':'4em'}).text(Math.round(score/quiz.length * 100) + '%').insertAfter('#question');
+    }
+
+
+    function init(){
+
+        //add pager and questions
+        if(typeof quiz !== "undefined" && $.type(quiz) === "array"){
+            //add pager
+            $(document.createElement('p')).addClass('pager').attr('id','pager').text('Spørsmål 1 av ' + quiz.length).appendTo('#frame');
+            //add first question
+            $(document.createElement('h4')).addClass('question').attr('id', 'question').text(quiz[0]['question']).appendTo('#frame');
+            $(document.createElement('p')).addClass('explanation').attr('id','explanation').html('&nbsp;').appendTo('#frame');
+
+            //questions holder
+            $(document.createElement('ul')).attr('id', 'choice-block').appendTo('#frame');
+
+            //add choices
+            addChoices(quiz[0]['choices']);
+
+            //add submit button
+            $(document.createElement('div')).addClass('choice-box').attr('id', 'submitbutton').text('SJEKK SVAR').css({'font-weight':700,'color':'#222','padding':'30px 0'}).appendTo('#frame');
+
+            setupButtons();
+        }
+    }
+
+    init();
+});
+</script>
 
   </body>
 
