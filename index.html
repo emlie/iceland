@@ -398,8 +398,7 @@ jQuery(document).ready(function($){
         if(typeof quiz !== "undefined" && $.type(quiz) === "array"){
             //add pager
             $(document.createElement('p')).addClass('pager').attr('id','pager').text('Spørsmål 1 av ' + quiz.length).appendTo('#frame');
-            //add first question
-            $(document.createElement('h4')).addClass('question').attr('id', 'question').text(quiz[0]['question']).appendTo('#frame');
+            
             $(document.createElement('p')).addClass('explanation').attr('id','explanation').html('&nbsp;').appendTo('#frame');
 
             //questions holder
