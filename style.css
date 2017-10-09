@@ -3,7 +3,6 @@
 :root {
     --main-font-family: 'Open Sans', sans-serif;
     --title-font-family: 'Montserrat', sans-serif;
-    --yellow: #FFFFBD;
     --pink: #ffb3b3;
     --green: #CDDBD3;
     --bright-blue: #00C6BF;
@@ -252,6 +251,25 @@ p span {
 
 .top img {
   width: 6rem;
+}
+
+.btn {
+  display: inline-block;
+  width: 30%;
+  padding: 2rem;
+  border: 1px solid var(--pink);
+  font-size: inherit;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 0.1rem;
+  color: var(--pink);
+  transition: ease-in-out 0.2s;
+}
+
+.btn:hover {
+  background-color: var(--pink);
+  color: var(--white);
 }
 
 .arr-btn {
